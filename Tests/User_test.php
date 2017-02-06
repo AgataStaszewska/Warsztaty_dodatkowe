@@ -13,5 +13,7 @@ if ($oUser instanceof User){
     
 }
 
+
+
 //TODO test get and set functions
 //TODO Write funciotns to tests

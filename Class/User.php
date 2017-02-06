@@ -71,12 +71,90 @@
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $this->hashedPassword = $hashedPassword;
             return true;
-       
         }
-       public function saveUserToDB(){
-           
-       }
+
+        public function saveUserToDB(){
+
+            if($this->id == -1){
+            $sql = "INSERT INTO Users(address, name, surname, credits, hashed_password) VALUES (?, ?, ?, ?, ?)";
+            $result = $conn->prepare($sql);
+            $result->execute([$this->address, $this->name, $this->surname, $this->credits, $this->hashedPassword]);
+            }else{
+            $sql = "UPDATE Users SET address=?, name=?, surname=?, credits=?, hashed_password=?, WHERE id=$this->id";
+            $result = $conn->prepare($sql);
+            $result->execute([$this->address, $this->name, $this->surname, $this->credits, $this->hashedPassword]);
+            if($result == true){
+                return true;  
+            }
+            }
+                return false;
+        }
+      
+      
+        static public function deleteUser($id){
+   
+            $sql = "SELECT COUNT(DISTINCT id) FROM Users";
+            $result = $conn->query($sql);
+            $rows = $result->fetch();
+            $count = $rows[0];
+
+         if($id<=$count){
+            $sql = "DELETE FROM Users WHERE id=?";
+            $result = $conn->prepare($sql);
+            $result->execute([$id]);
+             echo ("User deleted");
+         }else{
+             echo("Nie ma użytkownika o takim numerze ID");
+             echo "<br>";
+         }
+        }
+        
+         static public function loadUserById($id){
+    
+         $sql = "SELECT address, name, surname, credits, hashed_password FROM Users WHERE id=?";
+         $result = $conn->prepare($sql);
+         $result->execute([$id]);
+             foreach($result as $row){
+             echo("Nazwa użytkownika to ".$row["username"].", a jego e-mail to ".$row["email"]);
+             echo "<br>";
+
+             }
+             $loadedUser = new User();
+             $loadedUser->id = $id;
+             $loadedUser->address = $row["address"];
+             $loadedUser->name = $row["name"];
+             $loadedUser->surname = $row["surname"];
+             $loadedUser->credits = $row["credits"];
+             $loadedUser->hashedPassword = $row["hashed_password"];
+
+            return $loadedUser;
+         }
+         
+         static public function loadAllUsers(){
+    
+           $sql = "SELECT * FROM Users";
+           $usersArray = [];
+           $result = $conn->query($sql);
+
+                foreach($result as $row){
+                    $loadedUser = new User();
+                    $loadedUser->id = $id;
+                    $loadedUser->address = $row["address"];
+                    $loadedUser->name = $row["name"];
+                    $loadedUser->surname = $row["surname"];
+                    $loadedUser->credits = $row["credits"];
+                    $loadedUser->hashedPassword = $row["hashed_password"];
+
+                    $usersArray[] = $loadedUser;
+         }
+        }
+
+
+
+
+  }
+
        
            
-    }
+    
     

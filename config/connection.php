@@ -3,14 +3,16 @@ require("Class/User.php");
 
 $host = "localhost";
 $user = "root";
-$db = "";
-$password = "";
+$db = "parcels";
+$password = "coderslab";
 
-//$connection = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+$connection = new PDO("mysql:host=$host;dbname=$db", $user, $password);
 
-//FAKE TO DELETE NOW!!!!!
-$connection = "fakeconncetion";
-//End FAKE TO DELETE
+if($connection->errorCode()!=null){
+  die("Connection unsuccessful. Error: ".$connection->errorInfo()[2]);
+}else{
+  return true;
+}
 
 User::$connection = $connection; //MOZEMY TAK ZROBIC, BO JEST PUBLIC, JAKBY BYŁO PRIVATE MUSIELIBYSMY UZYC SETERA
 
