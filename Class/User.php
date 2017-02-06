@@ -10,6 +10,8 @@
         private $surname;
         private $credits;
         private $hashedPassword;
+        static public $connection;
+        //ATRYBUT PUBLICZNY: STATIC CONNECTION
         
         public function __construct(){
             $this->id = -1;
@@ -71,6 +73,10 @@
             return true;
        
         }
+       public function saveUserToDB(){
+           
+       }
+       
            
     }
     
