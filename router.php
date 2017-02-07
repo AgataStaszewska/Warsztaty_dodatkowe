@@ -12,20 +12,27 @@ $requestClass="";
 $request = $_SERVER['REQUEST_URI'];
 $arrayRequest = explode('/', $request);
 
-if(isset($arrayRequest[3])){
-    $requestClass = $arrayRequest[2];
-}else{
-    echo "drugi przypadek";
+//if(isset($arrayRequest[3])){
+//    $requestClass = $arrayRequest[2];
+//}else{
+//    echo "drugi przypadek";
+//}
+
+if(isset($arrayRequest[4])){
+    $requestParam = $arrayRequest[4];
+}else{ 
+    echo "nie podales parametru";
 }
 
-
+var_dump($arrayRequest);
+var_dump($requestParam);
 
 
 //$arrayRequest[0] = Warsztaty_dodatkowe
 //$arrayRequest[1] = router.php
 //var_dump($arrayRequest);
 
-$requestClass = $arrayRequest[3];
+$requestClass = $arrayRequest[4];
 
 //var_dump($requestClass);
 
@@ -35,7 +42,7 @@ if($_SERVER['REQUEST_METHOD']=="GET"){
         
         $user = new User();
         $userData = $user->loadFromDB(1);
-        var_dump($userData);
+       
         
     }
 }
