@@ -16,5 +16,3 @@ $connection = new PDO("mysql:host=$host;dbname=$db;", $user, $password);
 //  return true;
 //}
 User::$connection = $connection; //MOZEMY TAK ZROBIC, BO JEST PUBLIC, JAKBY BYŁO PRIVATE MUSIELIBYSMY UZYC SETERA
-
-var_dump($connection);
