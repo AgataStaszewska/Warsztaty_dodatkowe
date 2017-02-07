@@ -109,12 +109,15 @@
          }
         }
         
-         static public function loadFromDB($id){
+         public function loadFromDB($id){
     
-         $sql = "SELECT address_id, name, surname, credits, hashed_password FROM Users WHERE id=?";
-
-             if($result == Self::$connection->query($sql)){
-             $row = $result->fetch_assoc();
+         $sql = "SELECT * FROM Users WHERE id=$id";
+         var_dump(Self::$connection);
+            $result = Self::$connection->query($sql);
+            var_dump($result);
+         if($result){
+             var_dump($result);
+             $row = $result->fetch(PDO::FETCH_ASSOC);
              $this->id = $id;
              $this->address_id = $row["address_id"];
              $this->name = $row["name"];
@@ -130,7 +133,7 @@
 
          }
          
-         static public function loadAllUsers(){
+         static public function loadAllFromDB(){
     
            $sql = "SELECT * FROM Users";
            $usersArray = [];
