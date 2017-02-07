@@ -1,10 +1,33 @@
 <?php
 
-include ("config/connection.php");
+require "config/connection.php";
 
-var_dump($_SERVER['REQUEST_METHOD']);
-var_dump($_SERVER['REQUEST_URI']);
 
+//DEKLARACJE ZMIENNYCH
+$request = "";
+$arrayRequest=[];
+$requestClass="";
+
+//PARSOWANie ZAPYTANIA
+$request = $_SERVER['REQUEST_URI'];
+$arrayRequest = explode('/', $request);
+
+if(isset($arrayRequest[3])){
+    $requestClass = $arrayRequest[2];
+}else{
+    echo "drugi przypadek";
+}
+
+
+
+
+//$arrayRequest[0] = Warsztaty_dodatkowe
+//$arrayRequest[1] = router.php
+var_dump($arrayRequest);
+
+$requestClass = $arrayRequest[3];
+
+var_dump($requestClass);
 
 if($_SERVER['REQUEST_METHOD']=='GET'){
    

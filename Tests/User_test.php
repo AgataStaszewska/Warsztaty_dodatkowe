@@ -2,18 +2,26 @@
 
 include "../Class/User.php";
 
-$oUser = new User();
-var_dump($oUser);
-
-//Back later
-if ($oUser instanceof User){
-    echo "Instance of User";
-}else{
-    echo "Instance is not User";
+//if ($oUser instanceof User){
+//    echo "Instance of User";
+//}else{
+//    echo "Instance is not User";
     
-}
+   
+    
+
+ 
+    
+    var_dump($connection);
+    $user1 = new User();
+//    $user1->setAddressId("");
+    $user1->setName("Agata");
+    $user1->setSurname("Staszewska");
+    $user1->setCredits(134567);
+    $user1->setHashedPassword("haslo");
+    var_dump($user1);
+    $user1->saveUserToDB();
 
 
 
-//TODO test get and set functions
-//TODO Write funciotns to tests
+

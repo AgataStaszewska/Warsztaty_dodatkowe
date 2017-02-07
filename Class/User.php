@@ -5,17 +5,17 @@
     class User{
         
         private $id;
-        private $address;
+        private $addressId;
         private $name;
         private $surname;
         private $credits;
         private $hashedPassword;
-        static public $connection;
+        public static $connection;
         //ATRYBUT PUBLICZNY: STATIC CONNECTION
         
         public function __construct(){
             $this->id = -1;
-            $this->address = "";
+            $this->addressId = null;
             $this->name = "";
             $this->surname = "";
             $this->credits = null;  //Bo credits jest integerem, wiec nie mozemy dac mu pustego stringa;
@@ -27,12 +27,12 @@
             return $this->id;
         }      
         
-        public function getAddress(){
-            return $this->address;
+        public function getAddressId(){
+            return $this->addressId;
         }
         
-        public function setAddress($address){
-            $this->address = $address;
+        public function setAddressId($addressId){
+            $this->address = $addressId;
             return true;
         }
         
@@ -77,7 +77,7 @@
 
             if($this->id == -1){
             $sql = "INSERT INTO Users(address, name, surname, credits, hashed_password) VALUES (?, ?, ?, ?, ?)";
-            $result = $conn->prepare($sql);
+            $result = $connection->prepare($sql);
             $result->execute([$this->address, $this->name, $this->surname, $this->credits, $this->hashedPassword]);
             }else{
             $sql = "UPDATE Users SET address=?, name=?, surname=?, credits=?, hashed_password=?, WHERE id=$this->id";
@@ -109,25 +109,25 @@
          }
         }
         
-         static public function loadUserById($id){
+         static public function loadFromDB($id){
     
-         $sql = "SELECT address, name, surname, credits, hashed_password FROM Users WHERE id=?";
-         $result = $conn->prepare($sql);
-         $result->execute([$id]);
-             foreach($result as $row){
-             echo("Nazwa użytkownika to ".$row["username"].", a jego e-mail to ".$row["email"]);
-             echo "<br>";
+         $sql = "SELECT address_id, name, surname, credits, hashed_password FROM Users WHERE id=?";
 
+             if($result == Self::$connection->query($sql)){
+             $row = $result->fetch_assoc();
+             $this->id = $id;
+             $this->address_id = $row["address_id"];
+             $this->name = $row["name"];
+             $this->surname = $row["surname"];
+             $this->credits = $row["credits"];
+             $this->hashedPassword = $row["hashed_password"];
+              return $row;  //TU JEST ZWRACANIE ROW, PONIEWAZ NIE TRUE, BO UZYWAMY W WIDOKU
+             
+             }else{
+                 echo ("Bład przy ladowaniu z bazy");
+                 return false;
              }
-             $loadedUser = new User();
-             $loadedUser->id = $id;
-             $loadedUser->address = $row["address"];
-             $loadedUser->name = $row["name"];
-             $loadedUser->surname = $row["surname"];
-             $loadedUser->credits = $row["credits"];
-             $loadedUser->hashedPassword = $row["hashed_password"];
 
-            return $loadedUser;
          }
          
          static public function loadAllUsers(){
